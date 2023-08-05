@@ -1,7 +1,8 @@
 import { Input, Button } from 'antd';
 import { useRouter } from 'next/router'
 import { useState, useEffect } from 'react';
-import { deleteReservation, updateReservation } from '../services/api';
+import { deleteReservation, updateReservation } from '../../services/api';
+
 
 function Detail({ id, reservationData }) {
     const [reservation, setReservation] = useState(reservationData);
@@ -37,11 +38,11 @@ function Detail({ id, reservationData }) {
         <div>
             {editing ? (
                 <>
-                    <TextField label="Name" value={updatedReservation.name} onChange={e => setUpdatedReservation({...updatedReservation, name: e.target.value})} />
-                    <TextField label="Surname" value={updatedReservation.surname} onChange={e => setUpdatedReservation({...updatedReservation, surname: e.target.value})} />
-                    <TextField label="Date" value={updatedReservation.date} onChange={e => setUpdatedReservation({...updatedReservation, date: e.target.value})} />
-                    <TextField label="Time" value={updatedReservation.time} onChange={e => setUpdatedReservation({...updatedReservation, time: e.target.value})} />
-                    <TextField label="Number of People" value={updatedReservation.number} onChange={e => setUpdatedReservation({...updatedReservation, number: e.target.value})} />
+                    <Input placeholder="Name" value={updatedReservation.name} onChange={e => setUpdatedReservation({...updatedReservation, name: e.target.value})} />
+                    <Input placeholder="Surname" value={updatedReservation.surname} onChange={e => setUpdatedReservation({...updatedReservation, surname: e.target.value})} />
+                    <Input placeholder="Date" value={updatedReservation.date} onChange={e => setUpdatedReservation({...updatedReservation, date: e.target.value})} />
+                    <Input placeholder="Time" value={updatedReservation.time} onChange={e => setUpdatedReservation({...updatedReservation, time: e.target.value})} />
+                    <Input placeholder="Number of People" value={updatedReservation.number} onChange={e => setUpdatedReservation({...updatedReservation, number: parseInt(e.target.value)})} />
                 </>
             ) : (
                 <>
@@ -52,14 +53,14 @@ function Detail({ id, reservationData }) {
                     <h2>{reservation.number}</h2>
                 </>
             )}
-            <Button variant="contained" color="primary" onClick={editing ? handleUpdate : () => setEditing(!editing)}>{editing ? 'Save' : 'Edit'}</Button>
-            {editing && <Button variant="contained" color="secondary" onClick={handleDelete}>Delete</Button>}
+            <Button type="primary" onClick={editing ? handleUpdate : () => setEditing(!editing)}>{editing ? 'Save' : 'Edit'}</Button>
+            {editing && <Button danger onClick={handleDelete}>Delete</Button>}
         </div>
     );
 }
 
 export async function getServerSideProps(context) {
-    const res = await fetch(`https://api-url/reservations/${context.params.id}`);
+    const res = await fetch(`http://localhost:3001/reservations/${context.params.id}`);
     const reservationData = await res.json();
 
     return {
@@ -69,5 +70,6 @@ export async function getServerSideProps(context) {
         },
     };
 }
+
 
 export default Detail;

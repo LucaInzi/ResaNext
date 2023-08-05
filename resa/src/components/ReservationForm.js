@@ -1,41 +1,63 @@
 import React from 'react';
 import { useForm } from "react-hook-form";
-import { Input, Button, Row, Col, Typography } from 'antd';
+import { Input, Button, Row, Col, Typography, Form, Space } from 'antd';
 
 const { Title } = Typography;
 
 function ReservationForm({ onSubmit }) {
-    const { register, handleSubmit } = useForm();
-  
-    // Vérifiez si onSubmit est une fonction, sinon utilisez une fonction vide
-    const submitHandler = typeof onSubmit === 'function' ? onSubmit : () => {};
+    const { register, handleSubmit, formState: { errors } } = useForm();
+
+    const submitHandler = onSubmit ?? (() => {});
 
     return (
-        <form onSubmit={handleSubmit(submitHandler)}>
-            <Title level={3}>Reservation Form</Title>
-            <Row gutter={16}>
-                <Col span={12}>
-                    <Input {...register("name")} placeholder="Name" />
-                </Col>
-                <Col span={12}>
-                    <Input {...register("surname")} placeholder="Surname" />
-                </Col>
-            </Row>
-            <Row gutter={16}>
-                <Col span={12}>
-                    <Input {...register("date")} placeholder="Date" />
-                </Col>
-                <Col span={12}>
-                    <Input {...register("time")} placeholder="Time" />
-                </Col>
-            </Row>
-            <Row gutter={16}>
-                <Col span={24}>
-                    <Input {...register("number")} placeholder="Number of people" />
-                </Col>
-            </Row>
-            <Button type="primary" htmlType="submit">Add</Button>
-        </form>
+        <Space direction="vertical" size="large" style={{ 
+            width: '70%', 
+            display: 'flex', 
+            flexDirection: 'column', 
+            alignItems: 'center', 
+            justifyContent: 'center',
+            backgroundColor: '#333',
+            padding: '20px',
+            borderRadius: '15px',
+            color: '#fff', // Make all text white
+            margin: 'auto',
+        }}>
+            <Title level={3} style={{ textAlign: 'center', color: '#fff' }}>Formulaire de Réservation</Title>
+            <Form onSubmit={handleSubmit(submitHandler)} style={{ maxWidth: '600px', width: '100%' }}>
+                <Row gutter={16}>
+                    <Col span={12}>
+                        <Form.Item label={<span style={{ color: '#fff' }}>Nom</span>} validateStatus={errors.name ? 'error' : ''} help={errors.name && 'Ce champ est obligatoire'}>
+                            <Input {...register("name", { required: true })} placeholder="Nom" style={{ color: '#fff' }} />
+                        </Form.Item>
+                    </Col>
+                    <Col span={12}>
+                        <Form.Item label={<span style={{ color: '#fff' }}>Prénom</span>} validateStatus={errors.surname ? 'error' : ''} help={errors.surname && 'Ce champ est obligatoire'}>
+                            <Input {...register("surname", { required: true })} placeholder="Prénom" style={{ color: '#fff' }} />
+                        </Form.Item>
+                    </Col>
+                </Row>
+                <Row gutter={16}>
+                    <Col span={12}>
+                        <Form.Item label={<span style={{ color: '#fff' }}>Date</span>} validateStatus={errors.date ? 'error' : ''} help={errors.date && 'Ce champ est obligatoire'}>
+                            <Input {...register("date", { required: true })} placeholder="Date" style={{ color: '#fff' }} />
+                        </Form.Item>
+                    </Col>
+                    <Col span={12}>
+                        <Form.Item label={<span style={{ color: '#fff' }}>Heure</span>} validateStatus={errors.time ? 'error' : ''} help={errors.time && 'Ce champ est obligatoire'}>
+                            <Input {...register("time", { required: true })} placeholder="Heure" style={{ color: '#fff' }} />
+                        </Form.Item>
+                    </Col>
+                </Row>
+                <Row gutter={16}>
+                    <Col span={24}>
+                        <Form.Item label={<span style={{ color: '#fff' }}>Nombre de personnes</span>} validateStatus={errors.number ? 'error' : ''} help={errors.number && 'Ce champ est obligatoire'}>
+                            <Input {...register("number", { required: true })} placeholder="Nombre de personnes" style={{ color: '#fff' }} />
+                        </Form.Item>
+                    </Col>
+                </Row>
+                <Button type="primary" htmlType="submit" style={{ display: 'block', margin: '0 auto' }}>Ajouter</Button>
+            </Form>
+        </Space>
     );
 }
 
