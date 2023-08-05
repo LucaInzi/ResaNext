@@ -1,14 +1,5 @@
 {
-  "reservations": [
-    {
-      "name": "luca.inzirillo@hotmail.fr",
-      "surname": "dzzd",
-      "date": "18/01/15",
-      "time": "17",
-      "number": 4,
-      "id": 3
-    }
-  ],
+  "reservations": [],
   "posts": [
     {
       "id": 1,
